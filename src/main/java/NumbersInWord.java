@@ -4,6 +4,11 @@ import java.util.HashMap;
  * Created by Mladjan on 26.3.2014.
  */
 public class NumbersInWord {
+    private String wordMoney = "";
+    private String wordThousand = "";
+    private String wordHundred = "";
+    private String wordTeen = "";
+    private String wordOne = "";
     private static final String dollar = "dollar";
     private static final HashMap<Integer,String> basic = new HashMap<Integer, String>();
         static{
@@ -37,39 +42,33 @@ public class NumbersInWord {
             basic.put(100, "hundred");
             basic.put(1000, "thousand");
         }
-
     public String convert(int money) {
-        String wordMoney = "";
         wordMoney = getDecimal(money);
         return wordMoney;
-
     }
 
     private String getDecimal(int money) {
-        String wordMoney;
-        String wordThousand = "";
-        String wordHundred = "";
-        String wordTeen = "";
-        String wordOne = "";
-        String space = " ";
-
         if (money > 10 && money < 20) {
             return basic.get(money).concat(dollar);
         }
         int one = money % 10;
         money = money / 10;
-        int ten = money % 10;
+        int teen = money % 10;
         money = money /10;
         int hundred = money % 10;
         int thousand = money / 10;
+        return generateWordMoney(one, teen, hundred, thousand);
+    }
+    private String generateWordMoney(int one, int teen, int hundred, int thousand) {
+        String space = " ";
         if (thousand > 0) {
             wordThousand = basic.get(thousand).concat(space).concat(basic.get(1000).concat(space));
         }
         if (hundred > 0){
             wordHundred = basic.get(hundred).concat(space).concat(basic.get(100).concat(space));
         }
-        if (ten > 0) {
-            wordTeen = basic.get(ten*10).concat(space);
+        if (teen > 0) {
+            wordTeen = basic.get(teen*10).concat(space);
         }
         if (one > 0) {
             wordOne = basic.get(one).concat(space);
