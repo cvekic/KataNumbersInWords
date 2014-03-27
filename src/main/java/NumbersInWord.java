@@ -42,12 +42,15 @@ public class NumbersInWord {
             basic.put(100, "hundred");
             basic.put(1000, "thousand");
         }
-    public String convert(int money) {
+    public String convert(int money) throws MoneyOutOfBoundException{
         wordMoney = getDecimal(money);
         return wordMoney;
     }
 
-    private String getDecimal(int money) {
+    private String getDecimal(int money) throws MoneyOutOfBoundException{
+        if(money > 9999) {
+           throw new MoneyOutOfBoundException("Money are out of bound, you need to enter money less than 10000");
+        }
         if (money > 10 && money < 20) {
             return basic.get(money).concat(dollar);
         }
@@ -75,5 +78,11 @@ public class NumbersInWord {
         }
         wordMoney = wordThousand.concat(wordHundred).concat(wordTeen).concat(wordOne).concat(dollar);
         return wordMoney;
+    }
+
+    public class MoneyOutOfBoundException extends Exception {
+        private MoneyOutOfBoundException(String message) {
+            super(message);
+        }
     }
 }
